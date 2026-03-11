@@ -11,6 +11,7 @@ export const UsersList = ({
   totalItems,
   setCurrentPage,
   isSearchMode,
+  windowHeight,
 }: UsersListProps) => {
   return (
     <PaginationWrapper
@@ -19,6 +20,7 @@ export const UsersList = ({
       setCurrentPage={setCurrentPage}
       totalItems={totalItems}
       isSearchMode={isSearchMode}
+      windowHeight={windowHeight}
     >
       <Box sx={styles.usersListWrapper(isSearchMode)}>
         {users.map((user) => (

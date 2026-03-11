@@ -3,7 +3,6 @@ import { PaginationUtils } from "../../utils/PaginationUtils";
 import { Box, Button, CircularProgress, IconButton } from "@mui/material";
 import { ChevronLeftOutlined, ChevronRightOutlined } from "@mui/icons-material";
 import type { PaginationWrapperProps } from "./types";
-import { USERS_LIMIT } from "../../shared/limit";
 import { styles } from "./styles";
 
 export const PaginationWrapper = ({
@@ -12,11 +11,13 @@ export const PaginationWrapper = ({
   currentPage,
   isLoading,
   isSearchMode,
+  windowHeight,
   setCurrentPage,
 }: PaginationWrapperProps) => {
   const visiblePages = useMemo(
-    () => PaginationUtils.getVisiblePages(totalItems, currentPage, USERS_LIMIT),
-    [currentPage, totalItems],
+    () =>
+      PaginationUtils.getVisiblePages(totalItems, currentPage, windowHeight),
+    [currentPage, totalItems, windowHeight],
   );
 
   const handleChangePage = (value: number) => {

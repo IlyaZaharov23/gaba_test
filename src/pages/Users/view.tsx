@@ -6,28 +6,32 @@ import { styles } from "./styles";
 import { useDebounce } from "../../hooks/useDebounce";
 import { useActionsAlert } from "../../hooks/useActionsAlert";
 import { CheckCircleOutline } from "@mui/icons-material";
+import { useWindowSize } from "../../hooks/useWindowSize";
 
 function Users() {
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const debouncedSearchQuery = useDebounce(searchQuery, 500);
 
   const { showAlert, AlertComponent } = useActionsAlert();
+  const windowSize = useWindowSize(setCurrentPage);
 
-  const {
-    users,
-    isLoading,
+  const { users, isLoading, totalItems, isSearchMode } = useGetUsers(
+    debouncedSearchQuery,
+    windowSize.height,
     currentPage,
-    totalItems,
     setCurrentPage,
-    isSearchMode,
-  } = useGetUsers(debouncedSearchQuery, showAlert, {
-    message: "Users successfully loaded.",
-    icon: <CheckCircleOutline />,
-  });
+    showAlert,
+    {
+      message: "Users successfully loaded.",
+      icon: <CheckCircleOutline />,
+    },
+  );
 
   const handleChangeQuery = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
   };
+
   return (
     <Box sx={styles.mainPageWrapper}>
       <TextField
@@ -43,6 +47,7 @@ function Users() {
         currentPage={currentPage}
         totalItems={totalItems}
         setCurrentPage={setCurrentPage}
+        windowHeight={windowSize.height}
       />
       {AlertComponent}
     </Box>
