@@ -15,6 +15,7 @@ export const UsersList = () => {
         API_ENDPOINTS.GET_PAGINATION_USERS(16, 0),
       );
       setUsers(res.data.users);
+      console.log(res.data.users);
     } catch (error) {
       console.log(error);
     } finally {
