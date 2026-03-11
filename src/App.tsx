@@ -1,8 +1,7 @@
 import "./App.css";
-import { UsersList } from "./components/UsersList/view";
-
+import Users from "./pages/Users";
 function App() {
-  return <UsersList />;
+  return <Users />;
 }
 
 export default App;

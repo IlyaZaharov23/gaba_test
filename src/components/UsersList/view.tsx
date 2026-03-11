@@ -1,47 +1,32 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { API_ENDPOINTS } from "../../api";
-import { Box, CircularProgress } from "@mui/material";
-import type { User, ApiResponse } from "../../types/user";
+import { Box } from "@mui/material";
 import { UserItem } from "../UserItem";
+import { PaginationWrapper } from "../PaginationWrapper";
+import { styles } from "./styles";
+import type { UsersListProps } from "./types";
 
-export const UsersList = () => {
-  const [users, setUsers] = useState<User[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const getUsers = async () => {
-    try {
-      setIsLoading(true);
-      const res = await axios.get<ApiResponse>(
-        API_ENDPOINTS.GET_PAGINATION_USERS(16, 0),
-      );
-      setUsers(res.data.users);
-      console.log(res.data.users);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+export const USERS_LIMIT = 9;
 
-  useEffect(() => {
-    void getUsers();
-  }, []);
-
+export const UsersList = ({
+  users,
+  isLoading,
+  currentPage,
+  totalItems,
+  setIsLoading,
+  setCurrentPage,
+}: UsersListProps) => {
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexWrap: "wrap",
-        gap: "2rem",
-      }}
+    <PaginationWrapper
+      isLoading={isLoading}
+      setIsLoading={setIsLoading}
+      currentPage={currentPage}
+      setCurrentPage={setCurrentPage}
+      totalItems={totalItems}
     >
-      {!isLoading ? (
-        users.map((user) => <UserItem key={user.id} user={user} />)
-      ) : (
-        <Box>
-          <CircularProgress />
-        </Box>
-      )}
-    </Box>
+      <Box sx={styles.usersListWrapper}>
+        {users.map((user) => (
+          <UserItem key={user.id} user={user} />
+        ))}
+      </Box>
+    </PaginationWrapper>
   );
 };
