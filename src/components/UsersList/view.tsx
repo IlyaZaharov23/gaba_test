@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 import { UserItem } from "../UserItem";
 import { PaginationWrapper } from "../PaginationWrapper";
 import { styles } from "./styles";
@@ -13,6 +13,7 @@ export const UsersList = ({
   totalItems,
   setIsLoading,
   setCurrentPage,
+  isSearchMode,
 }: UsersListProps) => {
   return (
     <PaginationWrapper
@@ -21,11 +22,16 @@ export const UsersList = ({
       currentPage={currentPage}
       setCurrentPage={setCurrentPage}
       totalItems={totalItems}
+      isSearchMode={isSearchMode}
     >
       <Box sx={styles.usersListWrapper}>
-        {users.map((user) => (
-          <UserItem key={user.id} user={user} />
-        ))}
+        {isLoading ? (
+          <Box>
+            <CircularProgress />
+          </Box>
+        ) : (
+          users.map((user) => <UserItem key={user.id} user={user} />)
+        )}
       </Box>
     </PaginationWrapper>
   );

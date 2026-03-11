@@ -4,12 +4,14 @@ import { Box, Button, CircularProgress } from "@mui/material";
 import { ChevronLeftOutlined, ChevronRightOutlined } from "@mui/icons-material";
 import type { PaginationWrapperProps } from "./types";
 import { USERS_LIMIT } from "../UsersList";
+import { styles } from "./styles";
 
 export const PaginationWrapper = ({
   children,
   totalItems,
   currentPage,
   isLoading,
+  isSearchMode,
   setIsLoading,
   setCurrentPage,
 }: PaginationWrapperProps) => {
@@ -24,15 +26,7 @@ export const PaginationWrapper = ({
     setCurrentPage(value);
   };
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        height: "100%",
-        width: "100%",
-        justifyContent: "space-between",
-      }}
-    >
+    <Box sx={styles.paginationWrapper}>
       <Box>
         {isLoading ? (
           <Box>
@@ -42,28 +36,20 @@ export const PaginationWrapper = ({
           children
         )}
       </Box>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "center",
-          padding: "1rem 0.5rem",
-          width: "100%",
-          gap: "0rem",
-        }}
-      >
-        <ChevronLeftOutlined />
-        {visiblePages.map((page, index) => (
-          <Button
-            key={`users-${page}-${index}`}
-            onClick={() => handleChangePage(page)}
-          >
-            {page}
-          </Button>
-        ))}
-        <ChevronRightOutlined />
-      </Box>
+      {!isSearchMode && totalItems > 0 && (
+        <Box sx={styles.pagesWrapper}>
+          <ChevronLeftOutlined />
+          {visiblePages.map((page, index) => (
+            <Button
+              key={`users-${page}-${index}`}
+              onClick={() => handleChangePage(page)}
+            >
+              {page}
+            </Button>
+          ))}
+          <ChevronRightOutlined />
+        </Box>
+      )}
     </Box>
   );
 };
