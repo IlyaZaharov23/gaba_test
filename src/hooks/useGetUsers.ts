@@ -1,19 +1,25 @@
 import { useState, useEffect } from "react";
-import type { SingleUser, ApiResponse } from "../types/user";
+import type { SingleUser } from "../types/user";
+import type { ApiResponse } from "../api/types";
 import { API_ENDPOINTS } from "../api";
-import { USERS_LIMIT } from "../components/UsersList";
 import axios from "axios";
+import { USERS_LIMIT } from "../shared/limit";
+import type { AlertOptions } from "./useActionsAlert/types";
 
-export const useGetUsers = (searchQuery: string) => {
+export const useGetUsers = (
+  searchQuery: string,
+  showAlert: (options: AlertOptions) => void,
+  alertOptions: AlertOptions,
+) => {
   const [users, setUsers] = useState<SingleUser[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalItems, setTotalItems] = useState<number>(0);
   const [isSearchMode, setIsSearchMode] = useState<boolean>(false);
+
   const getUsers = async (currentPage: number) => {
     try {
       setIsLoading(true);
-      setIsSearchMode(false);
       const res = await axios.get<ApiResponse>(
         API_ENDPOINTS.GET_PAGINATION_USERS(
           USERS_LIMIT,
@@ -22,11 +28,12 @@ export const useGetUsers = (searchQuery: string) => {
       );
       setTotalItems(res.data.total);
       setUsers(res.data.users);
-      console.log(res.data);
+      showAlert(alertOptions);
     } catch (error) {
       console.log(error);
     } finally {
       setIsLoading(false);
+      setIsSearchMode(false);
     }
   };
 
@@ -40,7 +47,6 @@ export const useGetUsers = (searchQuery: string) => {
       setUsers(res.data.users);
       setTotalItems(0);
       setCurrentPage(1);
-      console.log(res.data);
     } catch (error) {
       console.log(error);
     } finally {
@@ -66,7 +72,6 @@ export const useGetUsers = (searchQuery: string) => {
     currentPage,
     totalItems,
     setCurrentPage,
-    setIsLoading,
     isSearchMode,
   };
 };

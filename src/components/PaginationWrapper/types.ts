@@ -6,6 +6,5 @@ export type PaginationWrapperProps = {
   currentPage: number;
   isLoading: boolean;
   isSearchMode: boolean;
-  setIsLoading: (value: boolean) => void;
   setCurrentPage: (value: number) => void;
 };

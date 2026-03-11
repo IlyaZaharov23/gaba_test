@@ -4,10 +4,14 @@ import { Box, TextField } from "@mui/material";
 import { useGetUsers } from "../../hooks/useGetUsers";
 import { styles } from "./styles";
 import { useDebounce } from "../../hooks/useDebounce";
+import { useActionsAlert } from "../../hooks/useActionsAlert";
+import { CheckCircleOutline } from "@mui/icons-material";
 
 function Users() {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const debouncedSearchQuery = useDebounce(searchQuery, 500);
+
+  const { showAlert, AlertComponent } = useActionsAlert();
 
   const {
     users,
@@ -15,9 +19,11 @@ function Users() {
     currentPage,
     totalItems,
     setCurrentPage,
-    setIsLoading,
     isSearchMode,
-  } = useGetUsers(debouncedSearchQuery);
+  } = useGetUsers(debouncedSearchQuery, showAlert, {
+    message: "Users successfully loaded.",
+    icon: <CheckCircleOutline />,
+  });
 
   const handleChangeQuery = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
@@ -28,6 +34,7 @@ function Users() {
         placeholder="Type username"
         onChange={handleChangeQuery}
         value={searchQuery}
+        sx={styles.searchInput}
       />
       <UsersList
         users={users}
@@ -36,8 +43,8 @@ function Users() {
         currentPage={currentPage}
         totalItems={totalItems}
         setCurrentPage={setCurrentPage}
-        setIsLoading={setIsLoading}
       />
+      {AlertComponent}
     </Box>
   );
 }

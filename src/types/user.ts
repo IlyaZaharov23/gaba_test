@@ -70,10 +70,3 @@ export type SingleUser = {
   crypto: UserCrypto;
   role: UserRole;
 };
-
-export type ApiResponse = {
-  users: SingleUser[];
-  limit: number;
-  skip: number;
-  total: number;
-};
