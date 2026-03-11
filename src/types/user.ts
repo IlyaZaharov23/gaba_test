@@ -40,7 +40,7 @@ type UserCrypto = {
 
 type UserRole = "admin" | "moderator" | "user";
 
-export type User = {
+export type SingleUser = {
   id: number;
   firstName: string;
   lastName: string;
@@ -72,7 +72,7 @@ export type User = {
 };
 
 export type ApiResponse = {
-  users: User[];
+  users: SingleUser[];
   limit: number;
   skip: number;
   total: number;
