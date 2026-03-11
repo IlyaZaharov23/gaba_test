@@ -1,0 +1,12 @@
+export const black = "#000000";
+export const white = "#FFFFFF";
+export const hoverGray = "#EBEBEB";
+export const formGray = "#F7F7F8";
+export const borderGray = "#D9D9D9";
+export const semiDarkGray = "#B3B3B3";
+export const darkGray = "#333333";
+export const blueSecondary = "#D6E1F7";
+export const blueSelected = "#EBF0FC";
+export const bluePrimary = "#3268d9";
+export const errorRed = "#C52F2F";
+export const green = "#24905A";
