@@ -9,9 +9,11 @@ export const useGetUsers = (searchQuery: string) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalItems, setTotalItems] = useState<number>(0);
+  const [isSearchMode, setIsSearchMode] = useState<boolean>(false);
   const getUsers = async (currentPage: number) => {
     try {
       setIsLoading(true);
+      setIsSearchMode(false);
       const res = await axios.get<ApiResponse>(
         API_ENDPOINTS.GET_PAGINATION_USERS(
           USERS_LIMIT,
@@ -20,7 +22,7 @@ export const useGetUsers = (searchQuery: string) => {
       );
       setTotalItems(res.data.total);
       setUsers(res.data.users);
-      console.log(res.data.users);
+      console.log(res.data);
     } catch (error) {
       console.log(error);
     } finally {
@@ -31,11 +33,13 @@ export const useGetUsers = (searchQuery: string) => {
   const getSearchUsers = async (query: string) => {
     try {
       setIsLoading(true);
+      setIsSearchMode(true);
       const res = await axios.get<ApiResponse>(
         API_ENDPOINTS.GET_SEARCH_USERS(query),
       );
       setUsers(res.data.users);
-      setTotalItems(res.data.total);
+      setTotalItems(0);
+      setCurrentPage(1);
       console.log(res.data);
     } catch (error) {
       console.log(error);
@@ -45,13 +49,16 @@ export const useGetUsers = (searchQuery: string) => {
   };
 
   useEffect(() => {
-    if (!searchQuery) return;
-    void getSearchUsers(searchQuery);
+    if (searchQuery) {
+      void getSearchUsers(searchQuery);
+    }
   }, [searchQuery]);
 
   useEffect(() => {
-    void getUsers(currentPage);
-  }, [currentPage]);
+    if (!searchQuery) {
+      void getUsers(currentPage);
+    }
+  }, [currentPage, searchQuery]);
 
   return {
     users,
@@ -60,5 +67,6 @@ export const useGetUsers = (searchQuery: string) => {
     totalItems,
     setCurrentPage,
     setIsLoading,
+    isSearchMode,
   };
 };

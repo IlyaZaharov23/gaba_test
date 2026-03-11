@@ -3,9 +3,11 @@ import { UsersList } from "../../components/UsersList";
 import { Box, TextField } from "@mui/material";
 import { useGetUsers } from "../../hooks/useGetUsers";
 import { styles } from "./styles";
+import { useDebounce } from "../../hooks/useDebounce";
 
 function Users() {
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const debouncedSearchQuery = useDebounce(searchQuery, 500);
 
   const {
     users,
@@ -14,7 +16,8 @@ function Users() {
     totalItems,
     setCurrentPage,
     setIsLoading,
-  } = useGetUsers(searchQuery);
+    isSearchMode,
+  } = useGetUsers(debouncedSearchQuery);
 
   const handleChangeQuery = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
@@ -29,6 +32,7 @@ function Users() {
       <UsersList
         users={users}
         isLoading={isLoading}
+        isSearchMode={isSearchMode}
         currentPage={currentPage}
         totalItems={totalItems}
         setCurrentPage={setCurrentPage}
