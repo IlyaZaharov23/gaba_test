@@ -66,10 +66,10 @@ export const styles = {
   copyButton: {
     padding: "0",
     "&:focus": {
-      outline: "none", // убирает синюю обводку
+      outline: "none",
     },
     "&.Mui-focusVisible": {
-      outline: "none", // убирает обводку при фокусе с клавиатуры
+      outline: "none",
     },
   },
   copyIcon: {

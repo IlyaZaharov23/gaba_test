@@ -36,10 +36,10 @@ export const styles = {
     color: black,
     fontWeight: isCurrentPage ? "600" : "400",
     "&:focus": {
-      outline: "none", // убирает синюю обводку
+      outline: "none",
     },
     "&.Mui-focusVisible": {
-      outline: "none", // убирает обводку при фокусе с клавиатуры
+      outline: "none",
     },
     "&:hover": {
       background: hoverGray,
