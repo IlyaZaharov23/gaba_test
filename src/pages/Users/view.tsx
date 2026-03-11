@@ -15,7 +15,6 @@ function Users() {
     currentPage,
     totalItems,
     setCurrentPage,
-    setIsLoading,
     isSearchMode,
   } = useGetUsers(debouncedSearchQuery);
 
@@ -28,6 +27,7 @@ function Users() {
         placeholder="Type username"
         onChange={handleChangeQuery}
         value={searchQuery}
+        sx={styles.searchInput}
       />
       <UsersList
         users={users}
@@ -36,7 +36,6 @@ function Users() {
         currentPage={currentPage}
         totalItems={totalItems}
         setCurrentPage={setCurrentPage}
-        setIsLoading={setIsLoading}
       />
     </Box>
   );

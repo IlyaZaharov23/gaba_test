@@ -1,5 +1,7 @@
 import { borderGray, semiDarkGray, black, darkGray } from "../../shared/colors";
 
+export const USER_ITEM_HEIGHT = 94;
+
 export const styles = {
   mainUserWrapper: {
     boxSizing: "border-box",
@@ -9,7 +11,7 @@ export const styles = {
     border: `1.5px solid ${borderGray}`,
     borderRadius: "16px",
     padding: "0.5rem 1rem",
-    maxHeight: "250px",
+    height: `${USER_ITEM_HEIGHT}px`,
     gap: "1rem",
     "&:hover": {
       cursor: "pointer",
@@ -63,6 +65,12 @@ export const styles = {
   },
   copyButton: {
     padding: "0",
+    "&:focus": {
+      outline: "none", // убирает синюю обводку
+    },
+    "&.Mui-focusVisible": {
+      outline: "none", // убирает обводку при фокусе с клавиатуры
+    },
   },
   copyIcon: {
     height: "1rem",

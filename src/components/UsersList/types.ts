@@ -6,6 +6,5 @@ export type UsersListProps = {
   currentPage: number;
   totalItems: number;
   isSearchMode: boolean;
-  setIsLoading: (value: boolean) => void;
   setCurrentPage: (value: number) => void;
 };
