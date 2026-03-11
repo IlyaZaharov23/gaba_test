@@ -33,10 +33,6 @@ export class PaginationUtils {
     return visiblePages;
   };
   static getUsersLimit(windowHeight: number) {
-    // Получаем высоту контейнера списка
-    // const container = document.querySelector(".users-list");
-    // const containerHeight = container.clientHeight;
-
     const listHeight =
       windowHeight -
       SEARCH_INPUT_HEIGHT -
@@ -44,29 +40,16 @@ export class PaginationUtils {
       PAGINATION_HEIGHT -
       PAGINATION_PADDING_Y * 2 -
       32;
-    // Высота одного элемента
-    // const itemHeight = 80; // пикселей
-
-    // Gap между элементами
-    // const gapSize = 16; // пикселей
-
-    // Точная формула: containerHeight = n * itemHeight + (n-1) * gap
-    // n * itemHeight + n * gap - gap = containerHeight
-    // n * (itemHeight + gap) = containerHeight + gap
-    // n = (containerHeight + gap) / (itemHeight + gap)
 
     const exactCount =
       (listHeight + USERS_LIST_GAP) / (USER_ITEM_HEIGHT + USERS_LIST_GAP);
 
-    // Проверяем, помещается ли целое количество
     if (Number.isInteger(exactCount)) {
       return exactCount;
     }
 
-    // Если не целое - берем floor, так как больше не поместится
     const itemsCount = Math.floor(exactCount);
 
-    // Проверяем, точно ли поместятся все элементы
     const totalHeightWithItems =
       itemsCount * USER_ITEM_HEIGHT + (itemsCount - 1) * USERS_LIST_GAP;
 

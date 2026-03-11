@@ -23,7 +23,8 @@ function Users() {
     setCurrentPage,
     showAlert,
     {
-      message: "Users successfully loaded.",
+      // message: "Users successfully loaded.",
+      // severity:
       icon: <CheckCircleOutline />,
     },
   );

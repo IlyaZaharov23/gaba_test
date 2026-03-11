@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import type { SingleUser } from "../types/user";
 import type { ApiResponse } from "../api/types";
 import { API_ENDPOINTS } from "../api";
@@ -12,7 +12,7 @@ export const useGetUsers = (
   currentPage: number,
   setCurrentPage: (value: number) => void,
   showAlert: (options: AlertOptions) => void,
-  alertOptions: AlertOptions,
+  alertOptions: { icon: React.ReactNode },
 ) => {
   const [users, setUsers] = useState<SingleUser[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -31,9 +31,18 @@ export const useGetUsers = (
         );
         setTotalItems(res.data.total);
         setUsers(res.data.users);
-        showAlert(alertOptions);
+        showAlert({
+          ...alertOptions,
+          message: "Users successfully loaded.",
+          severity: "success",
+        });
       } catch (error) {
         console.log(error);
+
+        showAlert({
+          message: "Something were wrong. Please try again.",
+          severity: "error",
+        });
       } finally {
         setIsLoading(false);
         setIsSearchMode(false);
@@ -52,8 +61,17 @@ export const useGetUsers = (
       setUsers(res.data.users);
       setTotalItems(0);
       setCurrentPage(1);
+      showAlert({
+        ...alertOptions,
+        message: "Users successfully loaded.",
+        severity: "success",
+      });
     } catch (error) {
       console.log(error);
+      showAlert({
+        message: "Something were wrong. Please try again.",
+        severity: "error",
+      });
     } finally {
       setIsLoading(false);
     }
